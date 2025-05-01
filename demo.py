@@ -1,10 +1,10 @@
-#working
 import cv2
+import streamlit as st
 from cvzone.HandTrackingModule import HandDetector
 from cvzone.ClassificationModule import Classifier
-import streamlit as st
 from Speak import SpeakWindow  # Ensure SpeakWindow is implemented
 
+# Define the SignDetection function
 def SignDetection(box):
     detector = HandDetector(maxHands=1)
     classifier = Classifier("hand_sign_with_digits_mobilenetv2.h5", "labels.txt")
@@ -17,35 +17,15 @@ def SignDetection(box):
     output_sentence = ""
     prev_prediction = ""
     prev_prediction_count = 0
-    frame_count = 0
     del_count = 0
     ready_for_speech = False
     
     st.write("🔍 Trying to access the camera...")
 
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        cap = cv2.VideoCapture(1)
-        if not cap.isOpened():
-            st.error("❌ Unable to access the webcam. Please check permissions or try a different camera index.")
-            return
-
-    st.success("✅ Camera access successful.")
-
-    # Streamlit UI
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        image_placeholder = st.empty()
-    with col2:
-        st.image("SignPoster.png")
-
-    stop_button = st.button("Stop", key='stop_sign')
-
-    while True:
-        success, img = cap.read()
-        if not success:
-            st.warning("⚠️ Failed to read from the webcam.")
-            break
+    # Using Streamlit's camera input
+    camera_input = st.camera_input("Capture Hand Gestures")
+    if camera_input:
+        img = camera_input
 
         imgOutput = img.copy()
         hands, img = detector.findHands(img, draw=False)
@@ -86,13 +66,7 @@ def SignDetection(box):
                 cv2.rectangle(imgOutput, (x_pad, y_pad), (x_pad + w_pad, y_pad + h_pad), (255, 0, 0), 4)
                 cv2.putText(imgOutput, output_sentence, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
 
-        # Streamlit image update
-        image_placeholder.image(imgOutput, channels="BGR", use_container_width=True)
-
-        if stop_button:
-            cap.release()
-            cv2.destroyAllWindows()
-            break
+        st.image(imgOutput, channels="BGR", use_container_width=True)
 
         # Speech handling
         if output_sentence and ready_for_speech:
@@ -110,6 +84,7 @@ def SignDetection(box):
             else:
                 ready_for_speech = True
 
+# Main function
 def main(box):
     st.title("🖐️ HandSpeak: Real-Time Hand Sign Detection")
     st.write("This application detects and classifies hand signs in real time.")
