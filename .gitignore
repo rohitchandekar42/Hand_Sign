@@ -1,11 +1,16 @@
+# Ignore everything by default
+/*
+
+# Don't ignore the environment folder
+!/env/   # If your environment folder is named 'venv'
+# Or use one of the other names you have:
+# !/.venv/  # If your environment folder is '.venv'
+# !/.env/   # If your environment folder is '.env'
+
 # Byte-compiled / cache
 __pycache__/
-data_2_0/
 *.py[cod]
 *.so
-.git/
-# Virtual environment
-
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
@@ -18,9 +23,7 @@ node_modules/
 
 # Logs
 *.log
-env/
-.env
-.enc/
+
 # OS files
 .DS_Store
 Thumbs.db
