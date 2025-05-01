@@ -5,11 +5,7 @@ data_2_0/
 *.so
 .git/
 # Virtual environment
-.env
-.venv/
-venv/
-ENV/
-env/
+
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
