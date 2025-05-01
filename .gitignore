@@ -1,0 +1,30 @@
+# Byte-compiled / cache
+__pycache__/
+data_2_0/
+*.py[cod]
+*.so
+.git/
+# Virtual environment
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+env/
+.env
+.enc/
+# OS files
+.DS_Store
+Thumbs.db
